@@ -61,3 +61,12 @@ def read_root():
         "message": f"Welcome to the {settings.PROJECT_NAME} API. Visit /docs for Swagger UI documentation.",
         "is_payment_mock": settings.IS_RAZORPAY_MOCK,
     }
+
+@app.on_event("startup")
+def startup_event():
+    try:
+        from seed import seed_database
+        seed_database()
+    except Exception as e:
+        print(f"Error seeding database on startup: {e}")
+
